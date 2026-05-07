@@ -3,7 +3,7 @@ package br.com.takeshi.spring_boot_rest.unitetests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.takeshi.spring_boot_rest.data.dto.UserDto;
+import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
 import br.com.takeshi.spring_boot_rest.model.UserEntity;
 
 public class MockPerson {

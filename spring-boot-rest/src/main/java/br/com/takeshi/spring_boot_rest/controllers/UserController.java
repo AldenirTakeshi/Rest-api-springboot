@@ -1,7 +1,7 @@
 package br.com.takeshi.spring_boot_rest.controllers;
 
-import br.com.takeshi.spring_boot_rest.data.dto.UserDto;
-import br.com.takeshi.spring_boot_rest.service.UserService;
+import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
+import br.com.takeshi.spring_boot_rest.service.v1.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class UserController {
     //private UserService userServiceSemInjection = new UserService();
 
     @PostMapping
-    public UserDto createUser(@RequestBody UserDto user){
+    public UserDto create(@RequestBody UserDto user){
         return userService.create(user);
     }
 
@@ -29,17 +29,17 @@ public class UserController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserDto> findAllUsers(){
+    public List<UserDto> findAll(){
         return userService.findAll();
     }
 
     @PutMapping("/{id}")
-    public UserDto updateUser(@PathVariable("id") Long id, @RequestBody UserDto user){
+    public UserDto update(@PathVariable("id") Long id, @RequestBody UserDto user){
         return userService.update(id, user);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }

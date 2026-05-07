@@ -1,6 +1,6 @@
-package br.com.takeshi.spring_boot_rest.service;
+package br.com.takeshi.spring_boot_rest.service.v1;
 
-import br.com.takeshi.spring_boot_rest.data.dto.UserDto;
+import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
 import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseListObject;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseObject;
