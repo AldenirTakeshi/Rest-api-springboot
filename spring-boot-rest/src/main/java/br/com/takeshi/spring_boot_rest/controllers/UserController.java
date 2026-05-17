@@ -19,27 +19,27 @@ public class UserController {
     //private UserService userServiceSemInjection = new UserService();
 
     @PostMapping
-    public UserDto create(@RequestBody UserDto user){
+    public UserDto create(@RequestBody UserDto user) {
         return userService.create(user);
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDto findById(@PathVariable("id") Long id){
+    @GetMapping(value = "/{id}", produces ={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
+    public UserDto findById(@PathVariable("id") Long id) {
         return userService.findById(id);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserDto> findAll(){
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
+    public List<UserDto> findAll() {
         return userService.findAll();
     }
 
     @PutMapping("/{id}")
-    public UserDto update(@PathVariable("id") Long id, @RequestBody UserDto user){
+    public UserDto update(@PathVariable("id") Long id, @RequestBody UserDto user) {
         return userService.update(id, user);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
