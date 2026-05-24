@@ -1,9 +1,11 @@
 package br.com.takeshi.spring_boot_rest.data.dto.v1;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class UserDto implements Serializable {
+public class UserDto extends RepresentationModel<UserDto> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

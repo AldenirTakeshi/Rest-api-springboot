@@ -1,5 +1,6 @@
 package br.com.takeshi.spring_boot_rest.service.v1;
 
+import br.com.takeshi.spring_boot_rest.controllers.UserController;
 import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
 import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseListObject;
@@ -10,6 +11,8 @@ import br.com.takeshi.spring_boot_rest.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -31,19 +34,27 @@ public class UserService {
         logger.info("Creating user");
         var entity = parseObject(user, UserEntity.class);
         var savedEntity = userRepository.save(entity);
-        return parseObject(savedEntity, UserDto.class);
+        var dto = parseObject(savedEntity, UserDto.class);
+        addHateoasLinks(user);
+        return dto;
     }
 
 
     public List<UserDto> findAll(){
         logger.info("Finding all users");
-        return parseListObject(userRepository.findAll(), UserDto.class);
+        var users = parseListObject(userRepository.findAll(), UserDto.class);
+        users.forEach(user -> {
+            addHateoasLinks(user);
+        });
+        return users;
     }
 
     public UserDto findById(Long id){
         logger.info("Finding user with id: {}", id);
         var entity = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
-        return parseObject(entity, UserDto.class);
+        var dto = parseObject(entity, UserDto.class);
+        addHateoasLinks(dto);
+        return dto;
     }
 
     public UserDto update(Long id, UserDto user){
@@ -62,7 +73,9 @@ public class UserService {
         if (user.getGender() != null) {
             entity.setGender(user.getGender());
         }
-        return parseObject(userRepository.save(entity), UserDto.class);
+        var dto = parseObject(userRepository.save(entity), UserDto.class);
+        addHateoasLinks(dto);
+        return dto;
     }
 
     public void delete(Long id){
@@ -71,5 +84,13 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
 
         userRepository.delete(entity);
+    }
+
+    private static void addHateoasLinks(UserDto dto) {
+        dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).findAll()).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).create(dto)).withRel("create").withType("POST"));
+        dto.add(linkTo(methodOn(UserController.class).update(dto.getId(), dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(UserController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
     }
 }
