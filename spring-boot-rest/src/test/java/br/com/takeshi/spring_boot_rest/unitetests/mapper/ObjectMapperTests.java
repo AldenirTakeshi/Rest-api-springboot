@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
+import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDTO;
 import br.com.takeshi.spring_boot_rest.model.UserEntity;
 import br.com.takeshi.spring_boot_rest.unitetests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ public class ObjectMapperTests {
 
     @Test
     public void parseEntityToDTOTest() {
-        UserDto output = parseObject(inputObject.mockEntity(), UserDto.class);
+        UserDTO output = parseObject(inputObject.mockEntity(), UserDTO.class);
         assertEquals(Long.valueOf(0L), output.getId());
         assertEquals("First Name Test0", output.getFirstName());
         assertEquals("Last Name Test0", output.getLastName());
@@ -31,8 +31,8 @@ public class ObjectMapperTests {
 
     @Test
     public void parseEntityListToDTOListTest() {
-        List<UserDto> outputList = parseListObject(inputObject.mockEntityList(), UserDto.class);
-        UserDto outputZero = outputList.get(0);
+        List<UserDTO> outputList = parseListObject(inputObject.mockEntityList(), UserDTO.class);
+        UserDTO outputZero = outputList.get(0);
 
         assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("First Name Test0", outputZero.getFirstName());
@@ -40,7 +40,7 @@ public class ObjectMapperTests {
         assertEquals("Address Test0", outputZero.getAddress());
         assertEquals("Male", outputZero.getGender());
 
-        UserDto outputSeven = outputList.get(7);
+        UserDTO outputSeven = outputList.get(7);
 
         assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("First Name Test7", outputSeven.getFirstName());
@@ -48,7 +48,7 @@ public class ObjectMapperTests {
         assertEquals("Address Test7", outputSeven.getAddress());
         assertEquals("Female", outputSeven.getGender());
 
-        UserDto outputTwelve = outputList.get(12);
+        UserDTO outputTwelve = outputList.get(12);
 
         assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("First Name Test12", outputTwelve.getFirstName());

@@ -1,7 +1,7 @@
 package br.com.takeshi.spring_boot_rest.service.v1;
 
 import br.com.takeshi.spring_boot_rest.controllers.UserController;
-import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
+import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDTO;
 import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseListObject;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseObject;
@@ -30,34 +30,34 @@ public class UserService {
     private final AtomicLong counter = new AtomicLong();
     private static  final Logger logger = LoggerFactory.getLogger(UserService.class.getName());
 
-    public UserDto create(UserDto user){
+    public UserDTO create(UserDTO user){
         logger.info("Creating user");
         var entity = parseObject(user, UserEntity.class);
         var savedEntity = userRepository.save(entity);
-        var dto = parseObject(savedEntity, UserDto.class);
+        var dto = parseObject(savedEntity, UserDTO.class);
         addHateoasLinks(user);
         return dto;
     }
 
 
-    public List<UserDto> findAll(){
+    public List<UserDTO> findAll(){
         logger.info("Finding all users");
-        var users = parseListObject(userRepository.findAll(), UserDto.class);
+        var users = parseListObject(userRepository.findAll(), UserDTO.class);
         users.forEach(user -> {
             addHateoasLinks(user);
         });
         return users;
     }
 
-    public UserDto findById(Long id){
+    public UserDTO findById(Long id){
         logger.info("Finding user with id: {}", id);
         var entity = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
-        var dto = parseObject(entity, UserDto.class);
+        var dto = parseObject(entity, UserDTO.class);
         addHateoasLinks(dto);
         return dto;
     }
 
-    public UserDto update(Long id, UserDto user){
+    public UserDTO update(Long id, UserDTO user){
         logger.info("Updating user with id: {}", id);
         var entity = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
@@ -73,7 +73,7 @@ public class UserService {
         if (user.getGender() != null) {
             entity.setGender(user.getGender());
         }
-        var dto = parseObject(userRepository.save(entity), UserDto.class);
+        var dto = parseObject(userRepository.save(entity), UserDTO.class);
         addHateoasLinks(dto);
         return dto;
     }
@@ -86,7 +86,7 @@ public class UserService {
         userRepository.delete(entity);
     }
 
-    private static void addHateoasLinks(UserDto dto) {
+    private static void addHateoasLinks(UserDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).create(dto)).withRel("create").withType("POST"));

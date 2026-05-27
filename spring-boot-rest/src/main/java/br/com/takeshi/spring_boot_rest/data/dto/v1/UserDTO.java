@@ -5,7 +5,7 @@ import org.springframework.hateoas.RepresentationModel;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class UserDto extends RepresentationModel<UserDto> implements Serializable {
+public class UserDTO extends RepresentationModel<UserDTO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,10 +15,10 @@ public class UserDto extends RepresentationModel<UserDto> implements Serializabl
     private String address;
     private String gender;
 
-    public UserDto() {
+    public UserDTO() {
     }
 
-    public UserDto(Long id, String firstName, String lastName, String address, String gender) {
+    public UserDTO(Long id, String firstName, String lastName, String address, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -68,7 +68,7 @@ public class UserDto extends RepresentationModel<UserDto> implements Serializabl
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof UserDto userModel)) return false;
+        if (!(o instanceof UserDTO userModel)) return false;
         return Objects.equals(getId(), userModel.getId()) && Objects.equals(getFirstName(), userModel.getFirstName()) && Objects.equals(getLastName(), userModel.getLastName()) && Objects.equals(getAddress(), userModel.getAddress()) && Objects.equals(getGender(), userModel.getGender());
     }
 

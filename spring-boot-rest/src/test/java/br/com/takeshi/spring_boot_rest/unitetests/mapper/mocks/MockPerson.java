@@ -3,7 +3,7 @@ package br.com.takeshi.spring_boot_rest.unitetests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
+import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDTO;
 import br.com.takeshi.spring_boot_rest.model.UserEntity;
 
 public class MockPerson {
@@ -13,7 +13,7 @@ public class MockPerson {
         return mockEntity(0);
     }
     
-    public UserDto mockDTO() {
+    public UserDTO mockDTO() {
         return mockDTO(0);
     }
     
@@ -25,8 +25,8 @@ public class MockPerson {
         return persons;
     }
 
-    public List<UserDto> mockDTOList() {
-        List<UserDto> persons = new ArrayList<>();
+    public List<UserDTO> mockDTOList() {
+        List<UserDTO> persons = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
             persons.add(mockDTO(i));
         }
@@ -43,8 +43,8 @@ public class MockPerson {
         return person;
     }
 
-    public UserDto mockDTO(Integer number) {
-        UserDto person = new UserDto();
+    public UserDTO mockDTO(Integer number) {
+        UserDTO person = new UserDTO();
         person.setAddress("Address Test" + number);
         person.setFirstName("First Name Test" + number);
         person.setGender(((number % 2)==0) ? "Male" : "Female");
