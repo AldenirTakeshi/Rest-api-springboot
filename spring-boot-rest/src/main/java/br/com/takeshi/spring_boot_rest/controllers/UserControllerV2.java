@@ -1,9 +1,7 @@
 package br.com.takeshi.spring_boot_rest.controllers;
 
-import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDto;
 import br.com.takeshi.spring_boot_rest.data.dto.v2.UserDtoV2;
 import br.com.takeshi.spring_boot_rest.service.v2.UserServiceV2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
