@@ -1,4 +1,4 @@
-package br.com.takeshi.spring_boot_rest.unitetests.mapper;
+package br.com.takeshi.spring_boot_rest.unittests.mapper;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseObject;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseListObject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDTO;
 import br.com.takeshi.spring_boot_rest.model.UserEntity;
-import br.com.takeshi.spring_boot_rest.unitetests.mapper.mocks.MockPerson;
+import br.com.takeshi.spring_boot_rest.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

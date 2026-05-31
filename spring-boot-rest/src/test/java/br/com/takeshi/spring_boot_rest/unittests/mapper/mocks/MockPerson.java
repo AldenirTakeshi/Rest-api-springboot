@@ -1,4 +1,4 @@
-package br.com.takeshi.spring_boot_rest.unitetests.mapper.mocks;
+package br.com.takeshi.spring_boot_rest.unittests.mapper.mocks;
 
 import java.util.ArrayList;
 import java.util.List;
