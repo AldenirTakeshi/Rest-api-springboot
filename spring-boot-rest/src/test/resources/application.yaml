@@ -1,3 +1,24 @@
+server:
+  port: 8888
+
 spring:
   application:
     name: spring-boot-rest
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring_boot_rest_test
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+logging:
+  level:
+    br.com.takeshi: DEBUG
+
+spring-doc:
+  paths-to-match: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
