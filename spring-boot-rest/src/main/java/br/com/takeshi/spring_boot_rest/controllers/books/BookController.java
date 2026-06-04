@@ -1,7 +1,7 @@
 package br.com.takeshi.spring_boot_rest.controllers.books;
 
 import br.com.takeshi.spring_boot_rest.data.dto.v1.BookDTO;
-import br.com.takeshi.spring_boot_rest.unittests.service.v1.BookService;
+import br.com.takeshi.spring_boot_rest.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

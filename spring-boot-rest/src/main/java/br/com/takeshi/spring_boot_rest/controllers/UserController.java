@@ -2,7 +2,7 @@ package br.com.takeshi.spring_boot_rest.controllers;
 
 import br.com.takeshi.spring_boot_rest.controllers.docs.UserControllerDocs;
 import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDTO;
-import br.com.takeshi.spring_boot_rest.unittests.service.v1.UserService;
+import br.com.takeshi.spring_boot_rest.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

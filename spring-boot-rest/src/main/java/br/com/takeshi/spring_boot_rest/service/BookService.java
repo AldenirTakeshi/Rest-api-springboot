@@ -1,4 +1,4 @@
-package br.com.takeshi.spring_boot_rest.unittests.service.v1;
+package br.com.takeshi.spring_boot_rest.service;
 
 import br.com.takeshi.spring_boot_rest.data.dto.v1.BookDTO;
 import br.com.takeshi.spring_boot_rest.model.BookEntity;

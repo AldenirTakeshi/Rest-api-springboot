@@ -2,6 +2,7 @@ package br.com.takeshi.spring_boot_rest.unittests.service.v1;
 
 import br.com.takeshi.spring_boot_rest.model.UserEntity;
 import br.com.takeshi.spring_boot_rest.repository.UserRepository;
+import br.com.takeshi.spring_boot_rest.service.UserService;
 import br.com.takeshi.spring_boot_rest.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
