@@ -8,6 +8,7 @@ import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseObject;
 
 import br.com.takeshi.spring_boot_rest.model.UserEntity;
 import br.com.takeshi.spring_boot_rest.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,17 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
 
         userRepository.delete(entity);
+    }
+
+    @Transactional
+    public UserDTO disableUser(Long id) {
+        logger.info("Disabling user with id: {}", id);
+        var entity = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
+        entity.setEnabled(false);
+        var dto = parseObject(userRepository.save(entity), UserDTO.class);
+        addHateoasLinks(dto);
+        return dto;
     }
 
     private static void addHateoasLinks(UserDTO dto) {

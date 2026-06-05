@@ -21,6 +21,8 @@ public class UserEntity implements Serializable {
     private String address;
     @Column(nullable = false, length = 6)
     private String gender;
+    @Column(nullable = false)
+    private Boolean enabled;
 
     public UserEntity() {
     }
@@ -73,14 +75,22 @@ public class UserEntity implements Serializable {
         this.gender = gender;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof UserEntity userEntity)) return false;
-        return Objects.equals(getId(), userEntity.getId()) && Objects.equals(getFirstName(), userEntity.getFirstName()) && Objects.equals(getLastName(), userEntity.getLastName()) && Objects.equals(getAddress(), userEntity.getAddress()) && Objects.equals(getGender(), userEntity.getGender());
+        return Objects.equals(getId(), userEntity.getId()) && Objects.equals(getFirstName(), userEntity.getFirstName()) && Objects.equals(getLastName(), userEntity.getLastName()) && Objects.equals(getAddress(), userEntity.getAddress()) && Objects.equals(getGender(), userEntity.getGender()) && Objects.equals(getEnabled(), userEntity.getEnabled());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender(), getEnabled());
     }
 }

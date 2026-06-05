@@ -14,6 +14,7 @@ public class UserDTO extends RepresentationModel<UserDTO> implements Serializabl
     private String lastName;
     private String address;
     private String gender;
+    private Boolean enabled;
 
     public UserDTO() {
     }
@@ -66,14 +67,22 @@ public class UserDTO extends RepresentationModel<UserDTO> implements Serializabl
         this.gender = gender;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof UserDTO userModel)) return false;
-        return Objects.equals(getId(), userModel.getId()) && Objects.equals(getFirstName(), userModel.getFirstName()) && Objects.equals(getLastName(), userModel.getLastName()) && Objects.equals(getAddress(), userModel.getAddress()) && Objects.equals(getGender(), userModel.getGender());
+        if (!(o instanceof UserDTO userDTO)) return false;
+        return Objects.equals(getId(), userDTO.getId()) && Objects.equals(getFirstName(), userDTO.getFirstName()) && Objects.equals(getLastName(), userDTO.getLastName()) && Objects.equals(getAddress(), userDTO.getAddress()) && Objects.equals(getGender(), userDTO.getGender()) && Objects.equals(getEnabled(), userDTO.getEnabled());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender(), getEnabled());
     }
 }

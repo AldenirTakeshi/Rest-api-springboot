@@ -49,4 +49,9 @@ public class UserController implements UserControllerDocs {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/disable")
+    public UserDTO disableUser(@PathVariable("id") Long id) {
+        return userService.disableUser(id);
+    }
 }
