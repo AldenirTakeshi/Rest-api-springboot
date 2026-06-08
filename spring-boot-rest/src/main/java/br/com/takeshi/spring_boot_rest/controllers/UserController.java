@@ -5,6 +5,9 @@ import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDTO;
 import br.com.takeshi.spring_boot_rest.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +36,12 @@ public class UserController implements UserControllerDocs {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
     @Override
-    public List<UserDTO> findAll() {
-        return userService.findAll();
+    public ResponseEntity<Page<UserDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page,size);
+        return ResponseEntity.ok(userService.findAll(pageable));
     }
 
     @PutMapping("/{id}")

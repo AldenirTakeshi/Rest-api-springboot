@@ -3,7 +3,6 @@ package br.com.takeshi.spring_boot_rest.service;
 import br.com.takeshi.spring_boot_rest.controllers.UserController;
 import br.com.takeshi.spring_boot_rest.data.dto.v1.UserDTO;
 import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
-import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseListObject;
 import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseObject;
 
 import br.com.takeshi.spring_boot_rest.model.UserEntity;
@@ -11,6 +10,8 @@ import br.com.takeshi.spring_boot_rest.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -41,13 +42,18 @@ public class UserService {
     }
 
 
-    public List<UserDTO> findAll(){
+    public Page<UserDTO> findAll(Pageable pageable){
         logger.info("Finding all users");
-        var users = parseListObject(userRepository.findAll(), UserDTO.class);
-        users.forEach(user -> {
-            addHateoasLinks(user);
+
+        var user = userRepository.findAll(pageable);
+
+        var userWithLink = user.map(u ->{
+            var dto = parseObject(u, UserDTO.class);
+            addHateoasLinks(dto);
+            return dto;
         });
-        return users;
+
+        return userWithLink;
     }
 
     public UserDTO findById(Long id){
@@ -100,7 +106,7 @@ public class UserService {
 
     private static void addHateoasLinks(UserDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).findAll()).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).findAll(1,12)).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(UserController.class).update(dto.getId(), dto)).withRel("update").withType("PUT"));
         dto.add(linkTo(methodOn(UserController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
