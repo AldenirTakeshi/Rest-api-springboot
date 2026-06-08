@@ -106,7 +106,7 @@ public class UserService {
 
     private static void addHateoasLinks(UserDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).findAll(1,12)).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).findAll(1,12, "asc")).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).create(dto)).withRel("create").withType("POST"));
         dto.add(linkTo(methodOn(UserController.class).update(dto.getId(), dto)).withRel("update").withType("PUT"));
         dto.add(linkTo(methodOn(UserController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
