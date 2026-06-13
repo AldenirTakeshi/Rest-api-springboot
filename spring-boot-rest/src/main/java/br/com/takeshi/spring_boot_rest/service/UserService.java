@@ -10,8 +10,12 @@ import br.com.takeshi.spring_boot_rest.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -24,9 +28,11 @@ public class UserService {
 
 
     private final UserRepository userRepository;
+    private final PagedResourcesAssembler<UserDTO> assembler;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PagedResourcesAssembler<UserDTO> assembler) {
         this.userRepository = userRepository;
+        this.assembler = assembler;
     }
 
     private final AtomicLong counter = new AtomicLong();
@@ -37,12 +43,12 @@ public class UserService {
         var entity = parseObject(user, UserEntity.class);
         var savedEntity = userRepository.save(entity);
         var dto = parseObject(savedEntity, UserDTO.class);
-        addHateoasLinks(user);
+        addHateoasLinks(dto);
         return dto;
     }
 
 
-    public Page<UserDTO> findAll(Pageable pageable){
+    public PagedModel<EntityModel<UserDTO>> findAll(Pageable pageable){
         logger.info("Finding all users");
 
         var user = userRepository.findAll(pageable);
@@ -53,7 +59,16 @@ public class UserService {
             return dto;
         });
 
-        return userWithLink;
+        var direction = pageable.getSort().stream().findFirst()
+                .map(order -> order.getDirection().name().toLowerCase())
+                .orElse("asc");
+
+        Link findAllLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                .methodOn(UserController.class)
+                .findAll(pageable.getPageNumber(), pageable.getPageSize(), direction))
+                .withSelfRel();
+
+        return assembler.toModel(userWithLink, findAllLink);
     }
 
     public UserDTO findById(Long id){
@@ -105,10 +120,10 @@ public class UserService {
     }
 
     private static void addHateoasLinks(UserDTO dto) {
-        dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).findAll(1,12, "asc")).withRel("findAll").withType("GET"));
-        dto.add(linkTo(methodOn(UserController.class).create(dto)).withRel("create").withType("POST"));
-        dto.add(linkTo(methodOn(UserController.class).update(dto.getId(), dto)).withRel("update").withType("PUT"));
-        dto.add(linkTo(methodOn(UserController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel());
+        dto.add(linkTo(methodOn(UserController.class).findAll(1, 12, "asc")).withRel("findAll"));
+        dto.add(linkTo(methodOn(UserController.class).create(dto)).withRel("create"));
+        dto.add(linkTo(methodOn(UserController.class).update(dto.getId(), dto)).withRel("update"));
+        dto.add(linkTo(methodOn(UserController.class).delete(dto.getId())).withRel("delete"));
     }
 }
