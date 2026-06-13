@@ -71,6 +71,30 @@ public class UserService {
         return assembler.toModel(userWithLink, findAllLink);
     }
 
+    public PagedModel<EntityModel<UserDTO>> findUserByName(String firstName,  Pageable pageable){
+
+        logger.info("Finding user by name");
+
+        var user = userRepository.findUserByName(firstName, pageable);
+
+        var userWithLink = user.map(u ->{
+            var dto = parseObject(u, UserDTO.class);
+            addHateoasLinks(dto);
+            return dto;
+        });
+
+        var direction = pageable.getSort().stream().findFirst()
+                .map(order -> order.getDirection().name().toLowerCase())
+                .orElse("asc");
+
+        Link findAllLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                .methodOn(UserController.class)
+                .findAll(pageable.getPageNumber(), pageable.getPageSize(), direction))
+                .withSelfRel();
+
+        return assembler.toModel(userWithLink, findAllLink);
+    }
+
     public UserDTO findById(Long id){
         logger.info("Finding user with id: {}", id);
         var entity = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
