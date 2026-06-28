@@ -41,6 +41,9 @@ public class UserService {
     public UserDTO create(UserDTO user){
         logger.info("Creating user");
         var entity = parseObject(user, UserEntity.class);
+        if (entity.getEnabled() == null) {
+            entity.setEnabled(true);
+        }
         var savedEntity = userRepository.save(entity);
         var dto = parseObject(savedEntity, UserDTO.class);
         addHateoasLinks(dto);
